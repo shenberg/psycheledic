@@ -18,6 +18,7 @@ public class Network {
     private Network() {
         try {
             socket = new DatagramSocket(PORT);
+            socket.setSoTimeout(2000);
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -40,13 +41,13 @@ public class Network {
             byte[] recData = new byte[1024];
             DatagramPacket recPacket = new DatagramPacket(recData, 1024);
             socket.receive(recPacket);
-            System.out.print("" + recPacket.getLength() + " / ");
+            String str = "" + recPacket.getLength() + " / ";
             recData = recPacket.getData();
             for (int i = 0; i < recPacket.getLength(); i++) {
-                System.out.print(recData[i] + " ");
+                str += recData[i] + " ";
             }
-            System.out.print(" /// ");
-            if (recData[1] == data[1]) {
+            Utils.debug(str);
+            if (recData[1] == data[1] && recData[0] == PacketType.ACK.ordinal()) {
                 return true;
             }
         } catch (IOException e) {
