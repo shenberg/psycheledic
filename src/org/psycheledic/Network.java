@@ -9,7 +9,11 @@ import java.net.SocketException;
 public class Network {
 
     private static final int PORT = 5000;
-    public static final String IP = "10.0.0.69";
+    private static final String BROADCAST_IP = "192.168.137.255";
+    public static final String[] IPS = {
+//            "192.168.137.202",
+            "192.168.137.201"
+    };
     public static final short MAX_LEN = 1024;
 
     private DatagramSocket socket;
@@ -34,7 +38,8 @@ public class Network {
 
     public boolean sendPacket(byte[] data, String ip) {
         try {
-            data[1] = seq++;
+            data[1] = seq;
+
             InetAddress addr = InetAddress.getByName(ip);
             DatagramPacket datagramPacket = new DatagramPacket(data, data.length, addr, PORT);
             socket.send(datagramPacket);
@@ -52,6 +57,9 @@ public class Network {
             }
         } catch (IOException e) {
             // do nothing
+        } finally {
+            seq++;
+            seq %= 256;
         }
         return false;
     }

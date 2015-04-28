@@ -4,5 +4,6 @@ public enum PacketType {
     DATA,
     ACK,
     NEW_PIC,
-    SHOW_PIC
+    SHOW_PIC,
+    COLOR
 }
