@@ -9,10 +9,11 @@ import java.net.SocketException;
 public class Network {
 
     private static final int PORT = 5000;
-    private static final String BROADCAST_IP = "192.168.137.255";
+    public static final String BROADCAST_IP = "255.255.255.255";
     public static final String[] IPS = {
 //            "192.168.137.202",
             "192.168.137.201"
+//            "10.0.0.70"
     };
     public static final short MAX_LEN = 1024;
 
@@ -43,6 +44,9 @@ public class Network {
             InetAddress addr = InetAddress.getByName(ip);
             DatagramPacket datagramPacket = new DatagramPacket(data, data.length, addr, PORT);
             socket.send(datagramPacket);
+            if (ip.equals(Network.BROADCAST_IP)) {
+                return true;
+            }
             byte[] recData = new byte[1024];
             DatagramPacket recPacket = new DatagramPacket(recData, 1024);
             socket.receive(recPacket);

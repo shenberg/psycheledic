@@ -26,9 +26,11 @@ public abstract class AbstractCommand {
     }
     protected void broadcast() {
         //TODO: use broadcast IP
-        for (String ip : Network.IPS) {
-            sendto(ip);
-        }
+        sendto(Network.BROADCAST_IP);
+//        for (String ip : Network.IPS) {
+//            sendto(ip);
+//        }
+
     }
 
     public abstract void sendto(String ip);

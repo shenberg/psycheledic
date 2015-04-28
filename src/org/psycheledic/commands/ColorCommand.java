@@ -31,7 +31,7 @@ public class ColorCommand extends AbstractCommand {
             dos.writeByte(R);
             dos.writeByte(G);
             dos.writeByte(B);
-            System.out.println("Sending COLOR command  to " + ip);
+            System.out.println("Sending COLOR command " + R + "/" + G +"/" + B + " to " + ip);
             byte[] data = bos.toByteArray();
             if (!Network.get().sendPacket(data, ip)) {
                 System.out.println("COLOR failed");
