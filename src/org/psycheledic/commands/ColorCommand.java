@@ -8,10 +8,10 @@ import java.io.IOException;
 
 public class ColorCommand extends AbstractCommand {
 
-    private int R;
-    private int G;
-    private int B;
-    private int duration;
+    protected int R;
+    protected int G;
+    protected int B;
+    protected int duration;
 
     public ColorCommand(int R, int G, int B, int duration) {
         this.R = R;
