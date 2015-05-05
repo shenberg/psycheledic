@@ -13,7 +13,7 @@ public class SendImageCommand extends AbstractCommand {
 
     protected BufferedImage mImage;
     private byte[] imageData;
-    private int columnDelay = 3;
+    private int columnDelay = 0;
 
     protected SendImageCommand() {
     }
@@ -43,6 +43,7 @@ public class SendImageCommand extends AbstractCommand {
 
     private void sendPicture(String ip) {
         try {
+            long pre = System.currentTimeMillis();
             short height = (short) mImage.getHeight();
             short width = (short) mImage.getWidth();
 
@@ -89,11 +90,15 @@ public class SendImageCommand extends AbstractCommand {
             if (!Network.get().sendPacket(data, ip)) {
                 System.out.println("Failed!");
             }
+            System.out.println ("Mlliseconds " + (System.currentTimeMillis()-pre));
         } catch (IOException e) {
             // do nothing
         }
     }
 
+    public void setColumnDelay(int columnDelay) {
+        this.columnDelay = columnDelay;
+    }
 
 //    private static final int[] gammaRed = {
 //            0, 3, 5, 9, 11, 15, 17, 19, 23, 27, 29, 31, 35, 37, 41, 45, 47, 51, 53, 57, 59, 63, 65, 69, 73, 75, 79, 81, 85, 87, 91, 93, 97, 101, 103, 107, 111, 115, 117, 121, 125, 127, 131, 135, 139, 141, 145, 149, 153, 157, 159, 163, 167, 171, 175, 177, 181, 185, 189, 193, 197, 201, 203, 207
