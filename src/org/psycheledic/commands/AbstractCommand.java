@@ -14,6 +14,7 @@ public abstract class AbstractCommand {
 
     protected int delay = 0;
     protected int repeatCount = 0; // infinite by default
+    public String ip = Network.BROADCAST_IP;
 
     protected boolean stopped = false;
 
@@ -22,7 +23,11 @@ public abstract class AbstractCommand {
         dos = new DataOutputStream(bos);
     }
     public void start(){
-        broadcast();
+        if (ip==Network.BROADCAST_IP) {
+            broadcast();
+        } else {
+            sendto(ip);
+        }
     }
     protected void broadcast() {
         //TODO: use broadcast IP
