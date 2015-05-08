@@ -37,11 +37,11 @@ public class ImageFolderCommand extends SendImageCommand {
                         } else {
                             sendto(ip);
                         }
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
 //                    try {
 //                        Thread.sleep(5000);
 //                    } catch (InterruptedException e) {
