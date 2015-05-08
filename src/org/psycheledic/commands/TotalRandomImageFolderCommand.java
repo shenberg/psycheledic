@@ -19,9 +19,6 @@ public class TotalRandomImageFolderCommand extends ImageFolderCommand {
     @Override
     protected void broadcast() {
         int ipIndex = r.nextInt(Network.IPS.length);
-        String prevIp = this.ip;
-        this.ip = Network.IPS[ipIndex];
-        super.broadcast();
-        this.ip = prevIp;
+        super.sendto(Network.IPS[ipIndex]);
     }
 }
