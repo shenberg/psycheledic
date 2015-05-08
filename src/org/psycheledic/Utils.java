@@ -1,13 +1,15 @@
 package org.psycheledic;
 
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
+
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class Utils {
 
     public static final boolean DEBUG = false;
+    public static final int MAX_HEIGHT = 90;
 
     private Utils() {
         // Utility class;
@@ -19,6 +21,7 @@ public class Utils {
         dos.writeByte((i >> 16) & 0xff);
         dos.writeByte((i >> 24) & 0xff);
     }
+
     public static void writeLittleEndianShort(DataOutputStream dos, short s) throws IOException {
         dos.writeByte(s & 0xff);
         dos.writeByte(s >> 8);
@@ -42,6 +45,18 @@ public class Utils {
     public static void debug(String str) {
         if (DEBUG) {
             System.out.println(str);
+        }
+    }
+
+
+    public static void playMP3(String filename) {
+        try {
+            FileInputStream fis = new FileInputStream(filename);
+            new Player(fis).play();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (JavaLayerException e) {
+            e.printStackTrace();
         }
     }
 }

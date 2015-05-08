@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/psycheledic_jar</output-path>
     <root id="archive" name="psycheledic.jar">
       <element id="module-output" name="psycheledic" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/jl1.0.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

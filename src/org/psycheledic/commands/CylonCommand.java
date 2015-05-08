@@ -21,8 +21,8 @@ public class CylonCommand {
 
         byte[] column = new byte[ImmediateColumnCommand.columnSize()];
 
-        for (int i = 0; i < 600; i++) {
-            double positionBase = - Math.abs(1.f - i / 300.f);
+        for (int i = 0; i < 1200; i++) {
+            double positionBase = - Math.abs(1.f - i / 600.f);
             for (int pixel = 0; pixel < 90; pixel++) {
                 double position = positionBase + pixel/90.f;
                 // find segment and position in segment

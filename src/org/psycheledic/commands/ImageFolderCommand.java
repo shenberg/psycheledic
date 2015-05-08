@@ -1,5 +1,7 @@
 package org.psycheledic.commands;
 
+import org.psycheledic.Network;
+
 import java.io.File;
 import java.util.Random;
 
@@ -17,22 +19,34 @@ public class ImageFolderCommand extends SendImageCommand {
             public void run() {
 
                 File[] files = imagesDir.listFiles();
-                if (files==null) {
+                if (files == null) {
                     return;
                 }
                 int count = files.length;
                 Random r = new Random(System.currentTimeMillis());
 
                 while (!stopped) {
-                    File f = files[r.nextInt(count)];
+                    for (File f : imagesDir.listFiles()) {
+
+//                    File f = files[r.nextInt(count)];
                     System.out.println("Showing image: " + f.getAbsolutePath());
                     loadImage(f);
-
-                    broadcast();
-                    try {
-                        Thread.sleep(4000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+//                        setColumnDelay(2);
+                        if (ip== Network.BROADCAST_IP) {
+                            broadcast();
+                        } else {
+                            sendto(ip);
+                        }
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+//                    try {
+//                        Thread.sleep(5000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
                     }
                 }
             }

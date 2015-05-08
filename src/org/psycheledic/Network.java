@@ -13,10 +13,13 @@ public class Network {
     public static final String BROADCAST_IP = "255.255.255.255";
     public static final String[] IPS = {
             "192.168.137.201",
-            "192.168.137.202"
-//            "192.168.137.203",
-//            "192.168.137.204"
-//            "192.168.137.205"
+            "192.168.137.202",
+            "192.168.137.203",
+//            "192.168.137.204",
+            "192.168.137.205",
+            "192.168.137.206",
+            "192.168.137.207"
+//            "192.168.137.209"
 //            "10.0.0.70"
     };
     public static final short MAX_LEN = 1024;
@@ -52,7 +55,7 @@ public class Network {
                 HashSet<String> acks = new HashSet<String>();
                 while (acks.size() < Network.IPS.length) {
                     String ackIp = getAck(data[1]);
-                    System.out.println("Got ack for " + data[1] + " from " + ackIp);
+                    Utils.debug("Got ack for " + data[1] + " from " + ackIp);
                     if (ackIp!=null) {
                         acks.add(ackIp);
                     }
