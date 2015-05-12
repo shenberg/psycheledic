@@ -13,6 +13,20 @@ public class EqualizerCommand {
     synchronized void setLevel(double level) {
         this.level = level;
     }
+
+    static void fillColumn(byte[] column, int index, double equalizerHeight) {
+        final int HEIGHT = 90;
+        for (int i = 0; i < (int)(equalizerHeight*HEIGHT); i++) {
+            column[index*HEIGHT*3 + i*3] = (i >= 30 ) ? (byte)127 : 0;
+            column[index*HEIGHT*3 + i*3 + 1] = (i < 60 ? (byte)127 : 0);
+            column[index*HEIGHT*3 + i*3 + 2] = 0;
+        }
+        for(int i = (int)(equalizerHeight*HEIGHT); i < HEIGHT; i++) {
+            column[index*HEIGHT*3 + i*3] = 0;
+            column[index*HEIGHT*3 + i*3 + 1] = 0;
+            column[index*HEIGHT*3 + i*3 + 2] = 0;
+        }
+    }
     public void start() {
         MediaPlayer.get().setListener(new AudioListener() {
             @Override
@@ -29,26 +43,20 @@ public class EqualizerCommand {
         /*new Thread(new Runnable() {
             @Override
             public void run() {*/
-                final int HEIGHT = 90;
-                byte[] column = new byte[ImmediateColumnCommand.columnSize()];
+                final int COLUMNS = 5;
+                byte[] column = new byte[ImmediateColumnCommand.columnSize()*COLUMNS];
                 double equalizerHeight = 0;
                 while (true) {
                     double realLevel = level;// - 400;
                     if (realLevel < 0) realLevel = 0;
                     realLevel /= 2000;
                     if (realLevel > 1.0) realLevel = 1.0;
-                    equalizerHeight = (equalizerHeight + realLevel) * 0.5;
-                    for (int i = 0; i < (int)(equalizerHeight*HEIGHT); i++) {
-                        column[i*3] = 50;
-                        column[i*3 + 1] = 120;
-                        column[i*3 + 2] = 30;
+                    double newEqualizerHeight = (equalizerHeight + realLevel) * 0.5;
+                    for (int i = 0; i < COLUMNS; i++) {
+                        fillColumn(column, i, ((i+1)*newEqualizerHeight + (5-i)*equalizerHeight)/6.0);
                     }
-                    for(int i = (int)(equalizerHeight*HEIGHT); i < HEIGHT; i++) {
-                        column[i*3] = 0;
-                        column[i*3 + 1] = 0;
-                        column[i*3 + 2] = 0;
-                    }
-                    (new ImmediateColumnCommand(column, 1)).start();
+                    equalizerHeight = newEqualizerHeight;
+                    (new ImmediateColumnCommand(column, COLUMNS)).start();
                 }
         //    }
         //}).start();
