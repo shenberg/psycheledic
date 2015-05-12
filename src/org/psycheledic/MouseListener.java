@@ -1,4 +1,4 @@
-package org.psycheledic.commands;
+package org.psycheledic;
 
 import java.io.*;
 import java.util.LinkedList;

@@ -1,5 +1,7 @@
 package org.psycheledic.commands;
 
+import org.psycheledic.MouseListener;
+
 public class SpeedColorCommand extends ColorCommand {
 
     private long lastMovement = System.currentTimeMillis();
