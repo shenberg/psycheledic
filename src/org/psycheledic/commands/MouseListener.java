@@ -9,7 +9,15 @@ public class MouseListener {
     private boolean stopped = false;
     private List<MouseMovedListener> mListeners;
 
-    public MouseListener() {
+    private static MouseListener _instance;
+    public static MouseListener get() {
+        if (_instance == null) {
+            _instance = new MouseListener();
+        }
+        return _instance;
+    }
+
+    private MouseListener() {
         mListeners = new LinkedList<MouseMovedListener>();
         new Thread(new Runnable() {
             @Override

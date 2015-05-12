@@ -50,7 +50,6 @@ public class Utils {
             for (int row = MAX_HEIGHT-1; row >= 0; row--) {
                 int color = 0x010101;
                 if (row<=MAX_HEIGHT-1-header && row>=footer) {
-                    System.out.println("Getting row " + row + " / " + (row - footer));
                     color = img.getRGB(col, (row - footer));
 //                    color = 0xff0000;
 //                } else {

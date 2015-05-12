@@ -3,10 +3,10 @@ package org.psycheledic.commands;
 public class SpeedColorCommand extends ColorCommand {
 
     private long lastMovement = System.currentTimeMillis();
-    public SpeedColorCommand(MouseListener ml) {
+    public SpeedColorCommand() {
         super(0, 0, 0, 0);
 
-        ml.addListener(new MouseListener.MouseMovedListener() {
+        MouseListener.get().addListener(new MouseListener.MouseMovedListener() {
             @Override
             public void mouseMoved(int delta) {
                 int colorSpeed = 4 * Math.abs(delta);
@@ -19,6 +19,10 @@ public class SpeedColorCommand extends ColorCommand {
             }
         });
 
+    }
+
+    @Override
+    public void start() {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -41,5 +45,4 @@ public class SpeedColorCommand extends ColorCommand {
             }
         }).start();
     }
-
 }
