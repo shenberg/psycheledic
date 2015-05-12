@@ -26,7 +26,7 @@ public class MouseListener {
                         byte y = (byte) bis.read();
                         System.out.println("Mouse: " + status + " / " + x + " / " + y);
                         count++;
-                        deltaX += x;
+                        deltaX += y;
                         if (count == 10) {
                             for (MouseMovedListener l : mListeners) {
                                 l.mouseMoved(deltaX / 10);
