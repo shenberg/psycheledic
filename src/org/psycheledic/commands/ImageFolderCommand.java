@@ -42,6 +42,9 @@ public class ImageFolderCommand extends SendImageCommand {
     }
 
     private void showImage(File f) {
+        if (stopped) {
+            return;
+        }
         System.out.println("Showing image: " + f.getAbsolutePath());
         loadImage(f);
 //                        setColumnDelay(2);
