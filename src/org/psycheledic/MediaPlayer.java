@@ -1,6 +1,7 @@
 package org.psycheledic;
 
 import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.AudioListener;
 import javazoom.jl.player.Player;
 
 import java.io.File;
@@ -15,6 +16,7 @@ public class MediaPlayer {
     private static MediaPlayer _instance;
     private Thread mPlayerThread;
     private Player mPlayer;
+    private AudioListener mListener;
 
     private MediaPlayer() {
     }
@@ -25,7 +27,9 @@ public class MediaPlayer {
         }
         return _instance;
     }
-
+    public void setListener(AudioListener listener) {
+        mListener = listener;
+    }
 
     public void playDir(final String dirName) {
         if (mPlayerThread != null) {
@@ -42,7 +46,7 @@ public class MediaPlayer {
                     try {
                         FileInputStream fis = new FileInputStream(f);
                         System.out.println("Playing file: "+ f.getAbsolutePath());
-                        mPlayer = new Player(fis);
+                        mPlayer = new Player(fis, null, mListener);
                         mPlayer.play();
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -63,7 +67,7 @@ public class MediaPlayer {
                 try {
                     FileInputStream fis = new FileInputStream(filename);
                     System.out.println("Playing file: "+ filename);
-                    mPlayer = new Player(fis);
+                    mPlayer = new Player(fis, null, mListener);
                     mPlayer.play();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
