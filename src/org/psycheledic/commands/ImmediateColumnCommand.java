@@ -18,17 +18,26 @@ public class ImmediateColumnCommand extends AbstractCommand {
 
 
     public byte[] data;
+    public int columnCount;
 
-    public void setColumn(byte[] column) {
-        for(int i = 0; i < column.length; i++) {
-            data[i + 2] = column[i];
+    public void setColumns(byte[] columns) {
+        for(int i = 0; i < columns.length; i++) {
+            data[i + 3] = columns[i];
         }
     }
 
     public ImmediateColumnCommand(byte[] column) {
-        data = new byte[PIXELS*PIXEL_SIZE + 2];
-        data[0] = (byte)PacketType.IMMEDIATE_COLUMN.ordinal();
-        setColumn(column);
+        this(column, 1);
+    }
+
+    public ImmediateColumnCommand(byte[] columns, int columnCount) {
+        data = new byte[PIXELS*PIXEL_SIZE*columnCount + 3];
+        this.columnCount = columnCount;
+        //data[0] = (byte)PacketType.IMMEDIATE_COLUMN.ordinal();
+        data[0] = (byte)PacketType.COLUMN_STREAM.ordinal();
+        data[2] = (byte)columnCount;
+        setColumns(columns);
+
     }
 
     @Override

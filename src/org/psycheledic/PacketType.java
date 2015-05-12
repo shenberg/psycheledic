@@ -6,5 +6,6 @@ public enum PacketType {
     NEW_PIC,
     SHOW_PIC,
     COLOR,
-    IMMEDIATE_COLUMN
+    IMMEDIATE_COLUMN,
+    COLUMN_STREAM,
 }
