@@ -52,7 +52,7 @@ public class SendImageCommand extends AbstractCommand {
             dos.writeByte(PacketType.NEW_PIC.ordinal());
             dos.writeByte(0);
             Utils.writeLittleEndianShort(dos, width);
-            Utils.writeLittleEndianShort(dos, height);
+            Utils.writeLittleEndianShort(dos, (short) Utils.MAX_HEIGHT);
             System.out.println("Sending the NEW_PIC command " + width + " / " + height + " to " + ip);
             byte[] data = bos.toByteArray();
             if (!Network.get().sendPacket(data, ip)) {
