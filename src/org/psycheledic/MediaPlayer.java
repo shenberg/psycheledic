@@ -16,7 +16,7 @@ public class MediaPlayer {
     private static MediaPlayer _instance;
     private Thread mPlayerThread;
     private Player mPlayer;
-    private AudioListener mListener;
+    private volatile AudioListener mListener;
 
     private MediaPlayer() {
     }
@@ -27,7 +27,7 @@ public class MediaPlayer {
         }
         return _instance;
     }
-    public void setListener(AudioListener listener) {
+    public synchronized void setListener(AudioListener listener) {
         mListener = listener;
     }
 

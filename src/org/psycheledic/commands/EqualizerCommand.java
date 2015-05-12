@@ -23,31 +23,34 @@ public class EqualizerCommand {
                     total += (shorts[i]*shorts[i])/65536;
                 }
                 setLevel(Math.sqrt(total));
+                System.out.println(Math.sqrt(total));
             }
         });
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
-            public void run() {
+            public void run() {*/
+                final int HEIGHT = 90;
                 byte[] column = new byte[ImmediateColumnCommand.columnSize()];
                 double equalizerHeight = 0;
                 while (true) {
-                    double realLevel = level - 400;
+                    double realLevel = level;// - 400;
                     if (realLevel < 0) realLevel = 0;
                     realLevel /= 2000;
                     if (realLevel > 1.0) realLevel = 1.0;
                     equalizerHeight = (equalizerHeight + realLevel) * 0.5;
-                    for (int i = 0; i < (int)equalizerHeight*ImmediateColumnCommand.columnSize(); i++) {
-                        column[ImmediateColumnCommand.columnSize()-1-i*3] = 0;
-                        column[ImmediateColumnCommand.columnSize()-1-i*3 + 1] = (byte)255;
-                        column[ImmediateColumnCommand.columnSize()-1-i*3 + 2] = 0;
+                    for (int i = 0; i < (int)(equalizerHeight*HEIGHT); i++) {
+                        column[i*3] = 50;
+                        column[i*3 + 1] = 120;
+                        column[i*3 + 2] = 30;
                     }
-                    for(int i = (int)equalizerHeight*ImmediateColumnCommand.columnSize(); i < ImmediateColumnCommand.columnSize(); i++) {
+                    for(int i = (int)(equalizerHeight*HEIGHT); i < HEIGHT; i++) {
                         column[i*3] = 0;
                         column[i*3 + 1] = 0;
                         column[i*3 + 2] = 0;
                     }
+                    (new ImmediateColumnCommand(column, 1)).start();
                 }
-            }
-        });
+        //    }
+        //}).start();
     }
 }
