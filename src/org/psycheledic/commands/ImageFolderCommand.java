@@ -8,6 +8,8 @@ import java.util.Random;
 public class ImageFolderCommand extends SendImageCommand {
 
     private File imagesDir;
+    public long picDelay = 500;
+    public boolean randomOrder = true;
 
     public ImageFolderCommand(File folder) {
         imagesDir = folder;
@@ -26,30 +28,33 @@ public class ImageFolderCommand extends SendImageCommand {
                 Random r = new Random(System.currentTimeMillis());
 
                 while (!stopped) {
-                    for (File f : imagesDir.listFiles()) {
-
-//                    File f = files[r.nextInt(count)];
-                    System.out.println("Showing image: " + f.getAbsolutePath());
-                    loadImage(f);
-//                        setColumnDelay(2);
-                        if (ip== Network.BROADCAST_IP) {
-                            broadcast();
-                        } else {
-                            sendto(ip);
+                    if (randomOrder) {
+                        File f = files[r.nextInt(count)];
+                        showImage(f);
+                    } else {
+                        for (File f : imagesDir.listFiles()) {
+                            showImage(f);
                         }
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                    try {
-//                        Thread.sleep(5000);
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
                     }
                 }
             }
         }).start();
+    }
+
+    private void showImage(File f) {
+        System.out.println("Showing image: " + f.getAbsolutePath());
+        loadImage(f);
+//                        setColumnDelay(2);
+        if (ip == Network.BROADCAST_IP) {
+            broadcast();
+        } else {
+            sendto(ip);
+        }
+        try {
+            Thread.sleep(picDelay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 }
