@@ -10,6 +10,7 @@ public class Utils {
 
     public static final boolean DEBUG = false;
     public static final int MAX_HEIGHT = 90;
+    public static final int BLACK_CORRECTION = 25;
 
     private Utils() {
         // Utility class;
@@ -30,13 +31,18 @@ public class Utils {
     public static byte[] convertImageToByteArray(BufferedImage img) throws IOException {
         short height = (short) img.getHeight();
         short width = (short) img.getWidth();
+        if (height>MAX_HEIGHT || width>MAX_HEIGHT) {
+            System.err.println("Error: Image height/width more than 90, using partial image");
+            height = (short) Math.max(height, MAX_HEIGHT);
+            width = (short) Math.max(width, MAX_HEIGHT);
+        }
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         for (int col = 0; col < width; col++) {
             for (int row = height - 1; row >= 0; row--) {
                 int color = img.getRGB(col, row);
-                bos.write(((color >> 16) & 0xff));
-                bos.write(((color >> 8) & 0xff));
-                bos.write((color & 0xff));
+                bos.write(Math.max(0, ((color >> 16) & 0xff) - BLACK_CORRECTION));
+                bos.write(Math.max(0, ((color >> 8) & 0xff) - BLACK_CORRECTION));
+                bos.write(Math.max(0, (color & 0xff) - BLACK_CORRECTION));
             }
         }
         return bos.toByteArray();
