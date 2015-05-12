@@ -9,7 +9,7 @@ public class SpeedColorCommand extends ColorCommand {
         ml.addListener(new MouseListener.MouseMovedListener() {
             @Override
             public void mouseMoved(int delta) {
-                int colorSpeed = 2 * Math.abs(delta);
+                int colorSpeed = 4 * Math.abs(delta);
                 colorSpeed = Math.min(colorSpeed, 255);
                 R = colorSpeed;
                 B = 255 - colorSpeed;
