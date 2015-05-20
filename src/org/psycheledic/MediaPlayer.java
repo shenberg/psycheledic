@@ -29,7 +29,9 @@ public class MediaPlayer {
     }
     public synchronized void setListener(AudioListener listener) {
         mListener = listener;
-        mPlayer.setListener(listener);
+        if (mPlayer != null) {
+            mPlayer.setListener(listener);
+        }
     }
 
     public void playDir(final String dirName) {

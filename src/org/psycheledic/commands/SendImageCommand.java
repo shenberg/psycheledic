@@ -30,9 +30,11 @@ public class SendImageCommand extends AbstractCommand {
             mImage = ImageIO.read(f);
             imageData = Utils.convertImageToByteArray(mImage);
         } catch (IOException e) {
+            System.out.println("failed to load image");
             e.printStackTrace();
+            mImage = null;
+            imageData = null;
         }
-
     }
 
 

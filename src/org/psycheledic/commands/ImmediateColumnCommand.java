@@ -43,7 +43,7 @@ public class ImmediateColumnCommand extends AbstractCommand {
     @Override
     public void sendto(String ip) {
         if (!Network.get().sendPacket(data, ip)) {
-            System.out.println("COLOR failed");
+            System.out.println("Column stream failed");
         }
     }
 }

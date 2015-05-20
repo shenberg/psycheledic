@@ -7,7 +7,7 @@ import static java.lang.Math.max;
 /**
  * Created by shenberg on 5/5/15.
  */
-public class PlasmaCommand {
+public class PlasmaCommand extends AbstractCommand {
 
     final static int[] sinetable = {
         128,131,134,137,140,143,146,149,152,156,159,162,165,168,171,174,
@@ -29,58 +29,65 @@ public class PlasmaCommand {
     };
 
     public PlasmaCommand() {
-        int columnIndex = 0;
-        long t = 0;
-        while (true) {
-            //byte[] column = new byte[ImmediateColumnCommand.columnSize()];
-            final int columnCount = 5;
-            byte[] column = new byte[ImmediateColumnCommand.columnSize()*columnCount];
 
-            int width = 1;
-            int height = 90;
-            //long t = System.currentTimeMillis();
-            t += 123;
-            for(int x=0; x < width; x++) {
-                for(int y=0; y < height; y++) {
-                    int val = (sinetable[((int) ((x * 571 + t) / 223)) & 255] + sinetable[((int) ((y * 353 + t) / 27)) & 255] - 255);
-                    int val2 = 3*(sinetable[((int) ((x * 153 + t) / 43)) & 255] + sinetable[((int) ((y * 61 + t) / 27)) & 255]) >> 1;
-                    //int val = 64*(sin((x*131 + currentTime)/151.f) + sin((y*71 + currentTime)/131.f));
-                    //int val2 = 384 + 192*(sin((x*113 - currentTime)/131.f) + sin((y*31 + currentTime)/151.f));
-                    //int val3 = 64*(sin((x*11 + getFrameCount())/27.f) + sin((y*11 - getFrameCount())/17.f));
-                    //int val = 64*(sin((x*131 + t)/151.f) + sin((y*71 + t)/131.f));
-                    //int val2 = 384 + 192*(sin((x*113 - t)/131.f) + sin((y*31 + t)/151.f));
-                    int intensity = max(val - 15, 0);
-                    int r,g,b;
-                    if(val2 < 256) {
-                        r = val2 * intensity / 255;
-                        g = (255 - val2) * intensity / 255;
-                        b = 0;
-                    } else if(val2 < 512) {
-                        val2 -= 256;
-                        r = (255 - val2) * intensity / 255;
-                        g = 0;
-                        b = val2 * intensity / 255;
-                    } else {
-                        val2 -= 512;
-                        r = 0;
-                        g = val2 * intensity / 255;
-                        b = (255 - val2) * intensity / 255;
-                    }
-
-                    column[columnIndex*ImmediateColumnCommand.columnSize() + y*3] = (byte)r;
-                    column[columnIndex*ImmediateColumnCommand.columnSize() + y*3 + 1] = (byte)g;
-                    column[columnIndex*ImmediateColumnCommand.columnSize() + y*3 + 2] = (byte)b;
-                }
-                columnIndex++;
-                if (columnIndex == columnCount) {
-                    columnIndex = 0;
-                    new ImmediateColumnCommand(column, columnCount).start();
-                }
-            }
-        }
     }
 
     public void start() {
-        //TODO:
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int columnIndex = 0;
+                long t = 0;
+                final int columnCount = 5;
+                byte[] column = new byte[ImmediateColumnCommand.columnSize()*columnCount];
+                while (!stopped) {
+                    //byte[] column = new byte[ImmediateColumnCommand.columnSize()];
+
+                    int height = 90;
+                    //long t = System.currentTimeMillis();
+                    t += 13;
+                    for(int y=0; y < height; y++) {
+                        int val = (sinetable[((int) (t / 23)) & 255] + sinetable[((int) ((y * 353 + t) / 137)) & 255] - 255);
+                        int val2 = 3*(sinetable[((int) (t / 7)) & 255] + sinetable[((int) ((y * 61 + t) / 21)) & 255]) >> 1;
+                        //int val = 64*(sin((x*131 + currentTime)/151.f) + sin((y*71 + currentTime)/131.f));
+                        //int val2 = 384 + 192*(sin((x*113 - currentTime)/131.f) + sin((y*31 + currentTime)/151.f));
+                        //int val3 = 64*(sin((x*11 + getFrameCount())/27.f) + sin((y*11 - getFrameCount())/17.f));
+                        //int val = 64*(sin((x*131 + t)/151.f) + sin((y*71 + t)/131.f));
+                        //int val2 = 384 + 192*(sin((x*113 - t)/131.f) + sin((y*31 + t)/151.f));
+                        int intensity = max(val - 15, 0);
+                        int r,g,b;
+                        if(val2 < 256) {
+                            r = val2 * intensity / 255;
+                            g = (255 - val2) * intensity / 255;
+                            b = 0;
+                        } else if(val2 < 512) {
+                            val2 -= 256;
+                            r = (255 - val2) * intensity / 255;
+                            g = 0;
+                            b = val2 * intensity / 255;
+                        } else {
+                            val2 -= 512;
+                            r = 0;
+                            g = val2 * intensity / 255;
+                            b = (255 - val2) * intensity / 255;
+                        }
+
+                        column[columnIndex*ImmediateColumnCommand.columnSize() + y*3] = (byte)r;
+                        column[columnIndex*ImmediateColumnCommand.columnSize() + y*3 + 1] = (byte)g;
+                        column[columnIndex*ImmediateColumnCommand.columnSize() + y*3 + 2] = (byte)b;
+                    }
+                    columnIndex++;
+                    if (columnIndex == columnCount) {
+                        columnIndex = 0;
+                        new ImmediateColumnCommand(column, columnCount).start();
+                    }
+                }
+            }
+        }).start();
+    }
+
+    @Override
+    public void sendto(String ip) {
+
     }
 }

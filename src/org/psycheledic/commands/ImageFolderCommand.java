@@ -2,7 +2,9 @@ package org.psycheledic.commands;
 
 import org.psycheledic.Network;
 
+import javax.imageio.IIOException;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class ImageFolderCommand extends SendImageCommand {
@@ -15,24 +17,36 @@ public class ImageFolderCommand extends SendImageCommand {
         imagesDir = folder;
     }
 
+    private static ArrayList<File> fileList(File folder) {
+        File[] files = folder.listFiles();
+        if (files == null) {
+            return null;
+        }
+
+        ArrayList<File> fileList = new ArrayList<File>(files.length);
+        for(File file : files) {
+            if (file.isFile()) {
+                fileList.add(file);
+            }
+        }
+        return fileList;
+    }
+
     public void start() {
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                File[] files = imagesDir.listFiles();
-                if (files == null) {
-                    return;
-                }
-                int count = files.length;
+                ArrayList<File> files = fileList(imagesDir);
+                int count = files.size();
                 Random r = new Random(System.currentTimeMillis());
 
                 while (!stopped) {
                     if (randomOrder) {
-                        File f = files[r.nextInt(count)];
+                        File f = files.get(r.nextInt(files.size()));
                         showImage(f);
                     } else {
-                        for (File f : imagesDir.listFiles()) {
+                        for (File f : fileList(imagesDir)) {
                             showImage(f);
                         }
                     }
@@ -47,6 +61,9 @@ public class ImageFolderCommand extends SendImageCommand {
         }
         System.out.println("Showing image: " + f.getAbsolutePath());
         loadImage(f);
+        if (mImage == null) {
+            return;
+        }
 //                        setColumnDelay(2);
         if (ip == Network.BROADCAST_IP) {
             broadcast();

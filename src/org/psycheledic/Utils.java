@@ -34,8 +34,8 @@ public class Utils {
         short width = (short) img.getWidth();
         if (height>MAX_HEIGHT || width>MAX_HEIGHT) {
             System.err.println("Error: Image height/width more than 90, using partial image");
-            height = (short) Math.max(height, MAX_HEIGHT);
-            width = (short) Math.max(width, MAX_HEIGHT);
+            height = (short) Math.min(height, MAX_HEIGHT);
+            width = (short) Math.min(width, MAX_HEIGHT);
         }
         int footer = 0;
         int header = 0;

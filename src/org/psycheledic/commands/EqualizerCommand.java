@@ -36,20 +36,22 @@ public class EqualizerCommand {
                 for (int i = 0; i < len; i++) {
                     total += (shorts[i]*shorts[i])/65536;
                 }
-                setLevel(Math.sqrt(total));
-                System.out.println(Math.sqrt(total));
+                //setLevel(Math.sqrt(total));
+                //System.out.println(Math.sqrt(total));
+                setLevel(total);
+                System.out.println(total);
             }
         });
-        /*new Thread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
-            public void run() {*/
+            public void run() {
                 final int COLUMNS = 5;
                 byte[] column = new byte[ImmediateColumnCommand.columnSize()*COLUMNS];
                 double equalizerHeight = 0;
                 while (true) {
-                    double realLevel = level;// - 400;
+                    double realLevel = level;
                     if (realLevel < 0) realLevel = 0;
-                    realLevel /= 2000;
+                    realLevel /= 4000000;
                     if (realLevel > 1.0) realLevel = 1.0;
                     double newEqualizerHeight = (equalizerHeight + realLevel) * 0.5;
                     for (int i = 0; i < COLUMNS; i++) {
@@ -58,7 +60,7 @@ public class EqualizerCommand {
                     equalizerHeight = newEqualizerHeight;
                     (new ImmediateColumnCommand(column, COLUMNS)).start();
                 }
-        //    }
-        //}).start();
+            }
+        }).start();
     }
 }
