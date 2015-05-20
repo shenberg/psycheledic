@@ -1,5 +1,6 @@
 package org.psycheledic.commands;
 
+import org.psycheledic.Main;
 import org.psycheledic.Network;
 import org.psycheledic.Utils;
 
@@ -21,14 +22,30 @@ public abstract class AbstractCommand {
     protected AbstractCommand() {
         bos = new ByteArrayOutputStream();
         dos = new DataOutputStream(bos);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    synchronized (Main.mutex) {
+                        Main.mutex.wait();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                stop();
+            }
+        }).start();
     }
-    public void start(){
-        if (ip==Network.BROADCAST_IP) {
+
+    public void start() {
+        stopped = false;
+        if (ip == Network.BROADCAST_IP) {
             broadcast();
         } else {
             sendto(ip);
         }
     }
+
     protected void broadcast() {
         //TODO: use broadcast IP
         sendto(Network.BROADCAST_IP);
@@ -50,8 +67,8 @@ public abstract class AbstractCommand {
 
     }
 
-    public void setDelay(int delay){
-        this.delay=delay;
+    public void setDelay(int delay) {
+        this.delay = delay;
     }
 
     public void setRepeatCount(int repeatCount) {

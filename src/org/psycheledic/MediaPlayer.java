@@ -83,4 +83,44 @@ public class MediaPlayer {
 
     }
 
+    public void playDirAccel(final String dirName) {
+        if (mPlayerThread != null) {
+            mPlayerThread.interrupt();
+        }
+        if (mPlayer != null) {
+            mPlayer.close();
+        }
+        mPlayerThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int delay = 1000;
+                File dir = new File(dirName);
+                while (true) {
+                    for (File f : dir.listFiles()) {
+                        try {
+                            FileInputStream fis = new FileInputStream(f);
+                            System.out.println("Playing file: " + f.getAbsolutePath());
+                            mPlayer = new Player(fis);
+                            mPlayer.play();
+                            Thread.sleep(delay);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (JavaLayerException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    delay-=50;
+                    if (delay<0 )
+                        delay = 0;
+                    System.out.println("ticking delay " + delay);
+                }
+            }
+        });
+        mPlayerThread.start();
+
+    }
+
 }

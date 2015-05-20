@@ -25,6 +25,7 @@ public class SpeedColorCommand extends ColorCommand {
 
     @Override
     public void start() {
+        stopped = false;
         new Thread(new Runnable() {
             @Override
             public void run() {

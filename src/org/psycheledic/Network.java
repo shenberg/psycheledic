@@ -18,7 +18,8 @@ public class Network {
             "192.168.137.204",
             "192.168.137.205",
             "192.168.137.206",
-            "192.168.137.207"
+            "192.168.137.207",
+            "192.168.137.208"
 //            "192.168.137.209"
 //            "10.0.0.70"
     };
@@ -62,7 +63,8 @@ public class Network {
                 }
                 return true;
             } else {
-                return (("/"+ip).equalsIgnoreCase(getAck(data[1])));
+                String ack = getAck(data[1]);
+                return (("/"+ip).equalsIgnoreCase(ack));
             }
         } catch (IOException e) {
             // do nothing

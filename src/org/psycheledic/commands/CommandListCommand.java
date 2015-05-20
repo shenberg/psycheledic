@@ -19,11 +19,16 @@ public class CommandListCommand extends AbstractCommand {
 
     @Override
     public void start() {
+        stopped = false;
         new Thread(new Runnable() {
             @Override
             public void run() {
 
                 while (!stopped) {
+                    AbstractCommand newCommand = commands[new Random(System.currentTimeMillis()).nextInt(commands.length)];
+                    if (newCommand==curCommand) {
+                        continue;
+                    }
                     if (curCommand != null) {
                         try {
                             Thread.sleep(delay);
@@ -32,7 +37,8 @@ public class CommandListCommand extends AbstractCommand {
                         }
                         curCommand.stop();
                     }
-                    curCommand = commands[new Random(System.currentTimeMillis()).nextInt(commands.length)];
+                    curCommand = newCommand;
+                    System.out.println("New command: " + curCommand);
                     curCommand.start();
                 }
             }

@@ -33,6 +33,7 @@ public class ImageFolderCommand extends SendImageCommand {
     }
 
     public void start() {
+        stopped = false;
         new Thread(new Runnable() {
             @Override
             public void run() {

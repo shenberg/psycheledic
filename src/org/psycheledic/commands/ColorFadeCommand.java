@@ -19,6 +19,7 @@ public class ColorFadeCommand extends AbstractCommand {
 
     @Override
     public void start() {
+        stopped = false;
         if (offsetMillies==0) {
             startThread(Network.BROADCAST_IP, timing, colors);
         } else {
