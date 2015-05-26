@@ -1,13 +1,11 @@
 package org.psycheledic.commands;
 
-import org.psycheledic.Color;
-
 import static java.lang.Math.max;
 
 /**
  * Created by shenberg on 5/5/15.
  */
-public class PlasmaCommand extends AbstractCommand {
+public class NonPlasmaCommand extends AbstractCommand {
 
     final static int[] sinetable = {
         128,131,134,137,140,143,146,149,152,156,159,162,165,168,171,174,
@@ -28,7 +26,7 @@ public class PlasmaCommand extends AbstractCommand {
                 79, 81, 84, 87, 90, 93, 96, 99, 103,106,109,112,115,118,121,124
     };
 
-    public PlasmaCommand() {
+    public NonPlasmaCommand() {
 
     }
 
@@ -47,8 +45,10 @@ public class PlasmaCommand extends AbstractCommand {
                     //long t = System.currentTimeMillis();
                     t += 1;
                     for(int y=0; y < height; y++) {
-                        int val = (sinetable[((int) (t / 23)) & 255] + sinetable[((int) ((y * 353 + t) / 37)) & 255] - 255);
-                        int val2 = 3*(sinetable[((int) (t / 7)) & 255] + sinetable[((int) ((y * 61 + t) / 21)) & 255]) >> 1;
+                        int val = 128 + (int)(127*(Math.sin(t*1.10356) + Math.sin(t*1.73567 + y)));
+                        int val2 = (int)(383.5*(Math.sin(t*1.356) + Math.sin(t*0.73567 + y)));
+                        //int val = (sinetable[((int) (t / 23)) & 255] + sinetable[((int) ((y * 353 + t) / 37)) & 255] - 255);
+                        //int val2 = 3*(sinetable[((int) (t / 7)) & 255] + sinetable[((int) ((y * 61 + t) / 21)) & 255]) >> 1;
                         //int val = 64*(sin((x*131 + currentTime)/151.f) + sin((y*71 + currentTime)/131.f));
                         //int val2 = 384 + 192*(sin((x*113 - currentTime)/131.f) + sin((y*31 + currentTime)/151.f));
                         //int val3 = 64*(sin((x*11 + getFrameCount())/27.f) + sin((y*11 - getFrameCount())/17.f));

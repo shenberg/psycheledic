@@ -64,6 +64,12 @@ public class MediaPlayer {
     }
 
     public void playMP3(final String filename) {
+        if (mPlayerThread != null) {
+            mPlayerThread.interrupt();
+        }
+        if (mPlayer != null) {
+            mPlayer.close();
+        }
         mPlayerThread = new Thread(new Runnable() {
             @Override
             public void run() {

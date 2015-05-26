@@ -13,10 +13,10 @@ public class Main {
 //
 //
 //        MediaPlayer.get().playDir("Music");
-//        AbstractCommand command;
-//        command = new ColorFadeCommand(10, 20, 100 << 16, 100 << 8, 100);
+        AbstractCommand command;
+        command = new ColorFadeCommand(10, 20, 100 << 16, 100 << 8, 100);
 //        ImageFolderCommand command2 = (ImageFolderCommand) imageFolder("Images");
-//        command2.start();
+        command.start();
 //
 //        while(true){
 //            Thread.sleep(1000);
@@ -25,6 +25,17 @@ public class Main {
 //        Thread.sleep(5000);
 //        command.stop();
 //        command2.start();
+//        new CommandListCommand(5*60*1000,
+//                new TotalRandomImageFolderCommand(new File("ImageSets/Karina")),
+//                new TotalRandomImageFolderCommand(new File("ImageSets/faces")),
+//                new TotalRandomImageFolderCommand(new File("ImageSets/cartoon_text")),
+//                new TotalRandomImageFolderCommand(new File("ImageSets/Fractals")),
+//                new TotalRandomImageFolderCommand(new File("ImageSets/Mushrooms")),
+//                new TotalRandomImageFolderCommand(new File("ImageSets/Patterns")),
+//                new TotalRandomImageFolderCommand(new File("ImageSets/Random_collection")),
+//                new TotalRandomImageFolderCommand(new File("ImageSets/superheroes")),
+//                new TotalRandomImageFolderCommand(new File("ImageSets/random2"))
+//                ).start();
 
 //        new CommandListCommand(5000, command, command2).start();
 //        Thread.sleep(15000);
@@ -47,6 +58,8 @@ public class Main {
 //        }
 
 
+//        MediaPlayer.get().playMP3("Music/Kalimba.mp3");
+//        Thread.sleep(2000);
 //        MediaPlayer.get().playMP3("Music/Kalimba.mp3");
 //        new EqualizerCommand().start();
 
@@ -76,10 +89,11 @@ public class Main {
 //        Thread.sleep(5000);
 
 
-        File imagesDir = new File("ImageSets/Fractals");
-        TotalRandomImageFolderCommand command = new TotalRandomImageFolderCommand(imagesDir);
-        command.picDelay = 0;
-        command.start();
+        //new PlasmaCommand().start();;
+        File imagesDir = new File("ImageSets/faces");
+        //TotalRandomImageFolderCommand command = new TotalRandomImageFolderCommand(imagesDir);
+        //command.picDelay = 0;
+        //command.start();
 //        File imagesDir = new File("Images");
 //        File f = new File(imagesDir, "fire.png");
 //        System.out.println("Showing image: " + f.getAbsolutePath());
