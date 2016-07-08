@@ -60,9 +60,9 @@ public class Utils {
                 int G = Math.max(0, ((color >> 8) & 0xff) - BLACK_CORRECTION);
                 int B = Math.max(0, (color & 0xff) - BLACK_CORRECTION);
 //                System.out.println(R + " / " + G + " / " + B + " / " + bos.size());
-                bos.write(R);
-                bos.write(G);
-                bos.write(B);
+                bos.write(R/3);
+                bos.write(G/3);
+                bos.write(B/3);
             }
         }
         return bos.toByteArray();
