@@ -10,7 +10,12 @@ import java.util.Random;
  */
 public class TotalRandomImageFolderCommand extends ImageFolderCommand {
 
+
     private Random r;
+    public TotalRandomImageFolderCommand(File folder, int delay) {
+        super(folder, delay);
+        r = new Random(System.currentTimeMillis());
+    }
     public TotalRandomImageFolderCommand(File folder) {
         super(folder);
         r = new Random(System.currentTimeMillis());

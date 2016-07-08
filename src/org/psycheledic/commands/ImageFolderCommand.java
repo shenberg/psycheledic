@@ -9,12 +9,18 @@ import java.util.Random;
 
 public class ImageFolderCommand extends SendImageCommand {
 
+    public static final int DEFAULT_DELAY = 2500;
     private File imagesDir;
     public long picDelay = 500;
     public boolean randomOrder = true;
 
-    public ImageFolderCommand(File folder) {
+    public ImageFolderCommand(File folder, int delay) {
         imagesDir = folder;
+        picDelay = delay;
+    }
+
+    public ImageFolderCommand(File folder) {
+        this(folder, DEFAULT_DELAY);
     }
 
     private static ArrayList<File> fileList(File folder) {
